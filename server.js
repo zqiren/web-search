@@ -1,6 +1,12 @@
-const express = require('express');
-const { spawn } = require('child_process');
-const path = require('path');
+import express from 'express';
+import { spawn, execSync } from 'child_process';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Get __dirname equivalent in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
 app.use(express.json());
 
@@ -15,7 +21,6 @@ app.post('/search', async (req, res) => {
   
   try {
     // Build the TypeScript if needed
-    const { execSync } = require('child_process');
     execSync('npm run build', { stdio: 'ignore' });
     
     // Run the MCP server with the search command
